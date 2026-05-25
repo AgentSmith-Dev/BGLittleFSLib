@@ -20,7 +20,7 @@ class	clAGS_LittleFS
 {
 public:
 	clAGS_LittleFS();
-	~clAGS_LittleFS();
+	virtual ~clAGS_LittleFS();
 
 	typerc  ercInit();
 
@@ -32,10 +32,10 @@ public:
 	static	int CB_Erase(const struct lfs_config *c, lfs_block_t block);
 	static	int CB_Sync(const struct lfs_config *c);
 
-	int iRead(const struct lfs_config *c, lfs_block_t block,	lfs_off_t   off, void    *buffer,	lfs_size_t  size);
-	int iProg(const struct lfs_config *p_lfsConfig, lfs_block_t ui8NbBlock, lfs_off_t ui16OffsetInBlock, const void *pTargetBuffer, lfs_size_t iNbBytesTobeRead);
-	int	iErase(const struct lfs_config *p_lfsConfig, lfs_block_t ui8NbBlock);
-	int iSync(const struct lfs_config *p_lfsConfig);
+	virtual int iRead(const struct lfs_config *c, lfs_block_t block,	lfs_off_t   off, void    *buffer,	lfs_size_t  size)=0;
+	virtual int iProg(const struct lfs_config *p_lfsConfig, lfs_block_t ui8NbBlock, lfs_off_t ui16OffsetInBlock, const void *pTargetBuffer, lfs_size_t iNbBytesTobeRead)=0;
+	virtual int	iErase(const struct lfs_config *p_lfsConfig, lfs_block_t ui8NbBlock)=0;
+	virtual int iSync(const struct lfs_config *p_lfsConfig)=0;
 
 	typerc  ercMkDir(const    char*    pcPath);
 	typerc  ercGetNbBytesToRead(uint32_t*   p_ui32NbBytesFileLength, const    char*    pcFileName);

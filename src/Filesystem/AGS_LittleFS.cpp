@@ -243,21 +243,6 @@ int clAGS_LittleFS::CB_Read(const struct lfs_config *p_lfsConfig,
     return  pThis->iRead(p_lfsConfig, ui8NbBlock, ui16OffsetInBlock, pTargetBuffer, iNbBytesTobeRead);
 }
 
-int clAGS_LittleFS::iRead(const struct lfs_config *p_lfsConfig, 
-                                        lfs_block_t ui8NbBlock,
-                                        lfs_off_t   ui16OffsetInBlock, 
-                                            void    *pTargetBuffer,
-                                        lfs_size_t  iNbBytesTobeRead)
-{
-    int iErr=0;
-
-    cout    <<  "entering iRead()" <<  endl;
-
-    memcpy(pTargetBuffer, (void*)&m_pBuffer[ui8NbBlock*ui16BlockSize+ui16OffsetInBlock], iNbBytesTobeRead);
-
-    return  iErr;
-}
-
 //  ---------------------------------------------------------------------------------------
 /*!	@brief	
 *
@@ -282,18 +267,6 @@ int clAGS_LittleFS::CB_Prog(const struct lfs_config *p_lfsConfig, lfs_block_t ui
     return  pThis->iProg(p_lfsConfig, ui8NbBlock, ui16OffsetInBlock, pSourceBuffer, iNbBytesTobeProg);
 }
 
-int clAGS_LittleFS::iProg(const struct lfs_config *p_lfsConfig, lfs_block_t ui8NbBlock,
-            lfs_off_t ui16OffsetInBlock, const void *pSourceBuffer, lfs_size_t iNbBytesTobeProg)
-{
-    int iErr=0;
-
-    cout    <<  "entering iProg()" <<  endl;
-
-    memcpy((void*)&m_pBuffer[ui8NbBlock*ui16BlockSize+ui16OffsetInBlock], pSourceBuffer, iNbBytesTobeProg);
-
-    return  iErr;
-}
-
 //  ---------------------------------------------------------------------------------------
 /*!	@brief	
 *
@@ -313,19 +286,6 @@ int clAGS_LittleFS::CB_Erase(const struct lfs_config *p_lfsConfig, lfs_block_t u
     return  pThis->iErase(p_lfsConfig, ui8NbBlock);
 }
 
-int clAGS_LittleFS::iErase(const struct lfs_config *p_lfsConfig, lfs_block_t ui8NbBlock)
-{
-
-    int iErr=0;
-
-    cout    <<  "entering iErase()" <<  endl;
-
-    memset((void*)&m_pBuffer[ui8NbBlock*ui16BlockSize], 0xff, ui16BlockSize);
-
-
-    return  iErr;
-}
-
 //  ---------------------------------------------------------------------------------------
 /*!	@brief	
 *
@@ -341,18 +301,6 @@ int clAGS_LittleFS::CB_Sync(const struct lfs_config *c)
     clAGS_LittleFS* pThis=(clAGS_LittleFS*)c->context;
 
     return  pThis->iSync(c);
-}
-
-int clAGS_LittleFS::iSync(const struct lfs_config *p_lfsConfig)
-{
-    int iErr=0;
-
-    (void)p_lfsConfig;
-
-    cout    <<  "entering iSync()" <<  endl;
-
-
-    return  iErr;
 }
 
 
