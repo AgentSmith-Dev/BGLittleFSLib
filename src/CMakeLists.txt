@@ -31,30 +31,20 @@ message("Build type: " ${CMAKE_BUILD_TYPE})
 # Enable CMake support for ASM and C languages
 enable_language(C ASM)
 
-# Link directories setup
-target_link_directories(${CMAKE_PROJECT_NAME} PRIVATE
-    # Add user defined library search paths
+#message(STATUS "CMAKE_SOURCE_DIR: ${CMAKE_SOURCE_DIR}")
+
+add_library(${CMAKE_PROJECT_NAME}
+            ${CMAKE_CURRENT_SOURCE_DIR}/Filesystem/AGSFSDirectory.cpp
+            ${CMAKE_CURRENT_SOURCE_DIR}/Filesystem/AGSFSFilename.cpp
+            ${CMAKE_CURRENT_SOURCE_DIR}/Filesystem/AGSFSGetPathVisitor.cpp
+            ${CMAKE_CURRENT_SOURCE_DIR}/Filesystem/AGSFSNode.cpp
+            ${CMAKE_CURRENT_SOURCE_DIR}/Filesystem/AGSFSNodeVisitor.cpp
+            ${CMAKE_CURRENT_SOURCE_DIR}/Filesystem/AGSFSTreeVisitor.cpp
+            ${CMAKE_CURRENT_SOURCE_DIR}/Filesystem/AGS_LittleFS.cpp
 )
 
-# Add sources to executable
-target_sources(${CMAKE_PROJECT_NAME} PRIVATE
-    # Add user sources here
-)
+target_include_directories(${CMAKE_PROJECT_NAME} PUBLIC
+    ${CMAKE_SOURCE_DIR}/..
+) 
 
-# Add include paths
-target_include_directories(${CMAKE_PROJECT_NAME} PRIVATE
-    # Add user defined include paths
-)
 
-# Add project symbols (macros)
-target_compile_definitions(${CMAKE_PROJECT_NAME} PRIVATE
-    # Add user defined symbols
-)
-
-# Remove wrong libob.a library dependency when using cpp files
-list(REMOVE_ITEM CMAKE_C_IMPLICIT_LINK_LIBRARIES ob)
-
-# Add linked libraries
-target_link_libraries(  ${CMAKE_PROJECT_NAME}
-    # Add user defined libraries
-)

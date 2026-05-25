@@ -15,11 +15,11 @@
 #include <iostream>
 #include <cstdlib>
 
-#include	"../../../EBMQTTLib/src/AGS_Helper.h"
+#include    "./EBMQTTLib/src/AGS_Helper.h"
 
 #include	"./AGSFSDirectory.h"
 #include	"./AGSFSFilename.h"
-#include    "./_AGSFSGetPathVisitor.h"
+#include    "./AGSFSGetPathVisitor.h"
 
 #include	"./AGS_LittleFS.h"
 

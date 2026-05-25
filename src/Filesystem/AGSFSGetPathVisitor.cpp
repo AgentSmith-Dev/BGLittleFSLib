@@ -8,7 +8,7 @@
 
 #include "./AGSFSDirectory.h"
 #include "./AGSFSFilename.h"
-#include "./_AGSFSGetPathVisitor.h"
+#include "./AGSFSGetPathVisitor.h"
 #include "./AGSFSNode.h"
 
 

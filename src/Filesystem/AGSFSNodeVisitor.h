@@ -8,7 +8,7 @@
 
 #pragma once
 
-#include    "./../../../EBMQTTLib/src/AGS_EBMQTTLib_Defines.h"
+#include    "./EBMQTTLib/src/AGS_EBMQTTLib_Defines.h"
 
 
 namespace NMS_AGS_LittleFS {
