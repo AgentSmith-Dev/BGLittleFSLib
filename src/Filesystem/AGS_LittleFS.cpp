@@ -12,8 +12,8 @@
  *      Author: ChatGPT
  */
 
-#include <iostream>
-#include <cstdlib>
+//#include <iostream>
+//#include <cstdlib>
 
 #include    "./EBMQTTLib/src/AGS_Helper.h"
 
@@ -23,10 +23,6 @@
 
 #include	"./AGS_LittleFS.h"
 
-constexpr   uint16_t ui16BlockSize=4096;
-constexpr   uint16_t ui16NbBlocks=1024;
-
-
 namespace	NMS_AGS_LittleFS
 {
 
@@ -34,9 +30,8 @@ using namespace std;
 
 
 clAGS_LittleFS::clAGS_LittleFS()
-:	m_pBuffer(nullptr),
-    m_lfs{},
-    m_lfs_config{}
+    :   m_lfs{},
+        m_lfs_config{}
 {
     m_lfs_config={
         .context    =   (void*)this,
@@ -48,8 +43,8 @@ clAGS_LittleFS::clAGS_LittleFS()
     // block device configuration
     .read_size = 16,
     .prog_size = 16,
-    .block_size = ui16BlockSize,
-    .block_count = ui16NbBlocks,
+    .block_size = 4096,//ui16BlockSize,
+    .block_count = 1024,//ui16NbBlocks,
     .block_cycles = 500,
     .cache_size = 16,
     .lookahead_size = 16,
@@ -60,36 +55,8 @@ clAGS_LittleFS::clAGS_LittleFS()
 
 clAGS_LittleFS::~clAGS_LittleFS()
 {
-    if(m_pBuffer){
-        free(m_pBuffer);
-        m_pBuffer=nullptr;
-    }   //  endif(m_pBuffer){
 }
 
-//  ---------------------------------------------------------------------------------------
-/*!	@brief	mount the file system - create it (new PCB) it it does not exist (yet)
-*	@date   05/16/2026  AGS Start
-*	@param
-*/
-//  ---------------------------------------------------------------------------------------
-typerc  clAGS_LittleFS::ercInit()
-{
-    int iErr;
-    typerc  ercRet=-1;
-
-    if((m_pBuffer=(uint8_t*)malloc(ui16BlockSize*ui16NbBlocks))==nullptr){
-        //  error
-
-    }else{
-        //  ok
-        memset((void*)m_pBuffer, 0xff, ui16BlockSize*ui16NbBlocks);
-
-        ercRet=0;
-
-    }   //  endif(    (m_pBuffer=malloc(4*1024*1024)==nullptr){
-
-    return  ercRet;
-}
 
 
 
@@ -104,16 +71,16 @@ typerc  clAGS_LittleFS::ercMountFileSystem()
     int iErr;
     typerc  ercRet=-1;
 
-    cout    <<  "entering ercMountFileSystem()" <<  endl;
-
+//    cout    <<  "entering ercMountFileSystem()" <<  endl;
+/*
     if(!m_pBuffer){
         //  no buffer
 
-    }else   if((iErr=lfs_mount(&m_lfs, &m_lfs_config))){
+    }else*/   if((iErr=lfs_mount(&m_lfs, &m_lfs_config))){
         //  error mounting -> this usually only happens on the first boot
         //  -> reformat
 
-        cout    <<  "formatting filesystem()" <<  endl;
+//        cout    <<  "formatting filesystem()" <<  endl;
 
         lfs_format(&m_lfs, &m_lfs_config);
         iErr=lfs_mount(&m_lfs, &m_lfs_config);
@@ -122,7 +89,7 @@ typerc  clAGS_LittleFS::ercMountFileSystem()
     if(iErr){
         //  major error!
     }else{
-        cout    <<  "mounting ok" <<  endl;
+//        cout    <<  "mounting ok" <<  endl;
 
         ercRet=ercRet_OK;
     }   //  endif(iErr){
@@ -317,8 +284,6 @@ typerc  clAGS_LittleFS::ercMkDir(const    char*    pcPath)
 {
     typerc  ercRet=-1;
 
-    lfs_info _lfs_info;
-
     int iErr;
     if((iErr=lfs_mkdir(&m_lfs, pcPath))){
 
@@ -389,7 +354,7 @@ typerc  clAGS_LittleFS::ercWrite(lfs_file_t* pLFS_File, void*    pBuffer, uint32
     typerc  ercRet=-1;
 
     lfs_ssize_t  _lfs_ssize_t;
-    if((_lfs_ssize_t=lfs_file_write(&m_lfs, pLFS_File, pBuffer, (lfs_size_t)ui32NbBytesToWrite))!=ui32NbBytesToWrite){
+    if((_lfs_ssize_t=lfs_file_write(&m_lfs, pLFS_File, pBuffer, (lfs_size_t)ui32NbBytesToWrite))!=(lfs_ssize_t)ui32NbBytesToWrite){
 
     }else{
         ercRet=0;
@@ -410,7 +375,7 @@ typerc  clAGS_LittleFS::ercRead(lfs_file_t* pLFS_File, void*    pBuffer, uint32_
     typerc  ercRet=-1;
 
     lfs_ssize_t iNbBytesRead;
-    if((iNbBytesRead=lfs_file_read(&m_lfs, pLFS_File, pBuffer, (lfs_size_t)ui32NbBytesToRead))!=ui32NbBytesToRead){
+    if((iNbBytesRead=lfs_file_read(&m_lfs, pLFS_File, pBuffer, (lfs_size_t)ui32NbBytesToRead))!=(lfs_ssize_t)ui32NbBytesToRead){
 
     }else{
         ercRet=0;

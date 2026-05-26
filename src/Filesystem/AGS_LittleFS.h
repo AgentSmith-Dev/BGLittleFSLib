@@ -22,7 +22,7 @@ public:
 	clAGS_LittleFS();
 	virtual ~clAGS_LittleFS();
 
-	typerc  ercInit();
+	virtual	typerc  ercInit()=0;
 
 	typerc  ercMountFileSystem();
 	typerc  ercReadTree(std::shared_ptr<clAGSFSDirectory> spRootDirectory);
@@ -46,7 +46,6 @@ public:
 
 
 protected:
-	uint8_t*	m_pBuffer=nullptr;
 	lfs_t	m_lfs;
 	lfs_config	m_lfs_config;
 

@@ -1,0 +1,3 @@
+[submodule "ThirdParty/littlefs"]
+	path = ThirdParty/littlefs
+	url = https://github.com/littlefs-project/littlefs.git
